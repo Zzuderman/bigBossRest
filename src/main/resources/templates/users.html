@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+
+<table border="2">
+    <thead>
+    <th>Username</th>
+    <th>Surname</th>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Age</th>
+    <th>Role</th>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getSurname()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+        <td th:text="${user.getPassword()}"></td>
+        <td th:text="${user.getAge()}"></td>
+        <td th:text="${user.getRoles()}"></td>
+
+        <td><form th:method="GET" th:action="@{'admin/'+${user.getId()}+'/edit'}" th:object="${user}">
+            <input type="submit" value="EDIT USER"/>
+        </form></td>
+
+        <td><form th:method="DELETE" th:action="@{'admin/'+${user.getId()}}" th:object="${user}">
+            <input type="submit" value="DELETE USER"/>
+        </form></td>
+
+    </tr>
+    </tbody>
+</table>
+<br>
+<input type="button" value="Add User"
+       onclick="window.location.href = 'admin/new'">
+<br><br>
+<a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>
