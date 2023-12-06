@@ -24,37 +24,12 @@ public class UserController {
         this.userServiceImp = userServiceImp;
     }
 
-//    @GetMapping("/user")
-//    @ResponseBody
-//    public String userPage(Principal principal) {
-//        User user = userServiceImp.findByUsername(principal.getName());
-//        return "User info: " + user.getUsername()+", " + user.getEmail();
-//    }
-
-//    @GetMapping("/user")
-//    public String showUsersTable(Model model, Principal principal) {
-//        User user = userServiceImp.findByEmail(principal.getName());
-//        model.addAttribute("one_user", user);
-//        return "user";
-//    }
-
     @GetMapping("/user")
     public String getUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userServiceImp.findByEmail(userDetails.getUsername());
         model.addAttribute("one_user", user);
         return "user";
     }
-
-
-
-//    public String getDetails(Authentication authentication, Principal principal) {
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(item -> item.getAuthority())
-//                .collect(Collectors.toList());
-//
-//        return userDetails.getEmail();
-//    }
 
 
 }

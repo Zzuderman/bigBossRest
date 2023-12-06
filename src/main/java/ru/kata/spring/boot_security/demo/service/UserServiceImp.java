@@ -21,10 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
+
     private UserRepository userRepository;
-
-
-
 
     @Autowired
     public void setUserRepository(UserRepository userRepository){
@@ -37,7 +35,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
 
     @Override
-//    @Transactional(readOnly = true)
     public List<User> getUsersList() {
         return userRepository.findAll();
     }
@@ -45,7 +42,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
 
     @Override
-//    @Transactional(readOnly = true)
     public User getUser(Long id) {
         User user = null;
         Optional<User> optional = userRepository.findById(id);
@@ -56,20 +52,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-//    @Transactional
     public void addUser(User user) {
 
         userRepository.save(user);
     }
 
     @Override
-//    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-//    @Transactional
     public void editUser(User user) {
         userRepository.save(user);
     }

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
 import java.util.List;
@@ -19,12 +20,13 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserServiceImp userService;
+    private final UserService userService;
+
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UserServiceImp userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,21 +37,10 @@ public class AdminController {
         return "users";
     }
 
-//    @GetMapping("/new")
-//    public String createNewUser(@ModelAttribute("user") User user) {
-//        return "new_user";
-//    }
 
     @GetMapping("/new")
-    public ModelAndView newUser() {
-        User user = new User();
-        ModelAndView mav = new ModelAndView("new_user");
-        mav.addObject("user", user);
-
-        List<Role> roles = (List<Role>) roleRepository.findAll();
-        mav.addObject("allRoles", roles);
-
-        return mav;
+    public String createNewUser(@ModelAttribute("user") User user, @RequestParam(name = "role", defaultValue = "0") Long[] id) {
+        return "new_user";
     }
 
 
@@ -64,23 +55,13 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/edit")
-//    public String editUser(Model model, @PathVariable("id") Long id) {
-////        model.addAttribute("user", userService.getUser(id));
-//        User user = userService.getUser(id);
-//        List<Role> listRoles = userService.listRoles();
-//        model.addAttribute("user", user);
-//        model.addAttribute("listRoles", listRoles);
-//        return "edit_user";
-    public ModelAndView editUser(@PathVariable(name = "id") Long id) {
+    public String editUser(@PathVariable(name = "id") Long id, Model model) {
         User user = userService.getUser(id);
-        ModelAndView mav = new ModelAndView("edit_user");
-        mav.addObject("user", user);
 
-        List<Role> roles = (List<Role>) roleRepository.findAll();
+        model.addAttribute("user", user);
+        model.addAttribute("allRoles", roleRepository.findAll());
 
-        mav.addObject("allRoles", roles);
-
-        return mav;
+        return "edit_user";
 
     }
 
