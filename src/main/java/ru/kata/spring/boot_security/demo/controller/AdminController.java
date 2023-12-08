@@ -70,6 +70,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "edit_user";
         }
+
         userService.editUser(user);
         return "redirect:/admin";
     }

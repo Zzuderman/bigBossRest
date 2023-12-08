@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -28,6 +30,9 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public void setUserRepository(UserRepository userRepository){
         this.userRepository = userRepository;
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -53,7 +58,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public void addUser(User user) {
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -64,9 +69,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public void editUser(User user) {
+
+        if (!user.getPassword().equals(userRepository.getById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
-
 
 
     @Override

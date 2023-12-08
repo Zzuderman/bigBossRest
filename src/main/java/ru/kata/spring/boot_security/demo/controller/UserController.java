@@ -17,16 +17,16 @@ import java.security.Principal;
 
 @Controller
 public class UserController {
-    private UserServiceImp userServiceImp;
+    private UserServiceImp userService;
 
     @Autowired
     public void setUserServiceImp(UserServiceImp userServiceImp) {
-        this.userServiceImp = userServiceImp;
+        this.userService = userServiceImp;
     }
 
     @GetMapping("/user")
     public String getUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userServiceImp.findByEmail(userDetails.getUsername());
+        User user = userService.findByEmail(userDetails.getUsername());
         model.addAttribute("one_user", user);
         return "user";
     }
