@@ -11,19 +11,23 @@
 <body>
 <nav class="navbar bg-dark">
     <div class="container-fluid">
-        <div class="navbar-header text-white">
-            Инфа о почте и ролях
+        <div class="row">
+            <div class="navbar-header text-white font-weight-bolder" th:text="${one_user.getEmail()}"></div>
+            <div class="navbar-header text-white text-left" >&nbsp;with roles:&nbsp;</div>
+            <div class="navbar-header text-white font-weight-bolder" th:text="${one_user.getRoles()}"></div>
         </div>
+
         <div>
-            <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+            <ul class="navbar-nav mr-auto mt-2 mt-md-0 right">
                 <li class="nav-item">
-                    <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+                    <a href="javascript: document.logoutForm.submit()" style="color:#ffffff;" role="menuitem"> Logout</a>
                     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
                         <input hidden type="submit" value="Sign Out"/>
                     </form>
                 </li>
             </ul>
         </div>
+
     </div>
 </nav>
 <br>

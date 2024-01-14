@@ -43,8 +43,10 @@ public class AdminController {
 
 
     @GetMapping("/new")
-    public String createNewUser(Model model,@ModelAttribute("user") User user, @RequestParam(name = "role", defaultValue = "0") Long[] id) {
+    public String createNewUser(@AuthenticationPrincipal UserDetails userDetails,Model model,@ModelAttribute("user") User user, @RequestParam(name = "role", defaultValue = "0") Long[] id) {
         model.addAttribute("allRoles", roleRepository.findAll());
+        User userInfo = userService.findByEmail(userDetails.getUsername());
+        model.addAttribute("info_user", userInfo);
         return "new_user";
     }
 
@@ -60,12 +62,14 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable(name = "id") Long id, Model model) {
+    public String editUser(@PathVariable(name = "id") Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userService.getUser(id);
 
         model.addAttribute("users", userService.getUsersList());
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleRepository.findAll());
+        User userInfo = userService.findByEmail(userDetails.getUsername());
+        model.addAttribute("info_user", userInfo);
 
         return "edit_user";
 
