@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,20 +22,22 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserService userService;
+    private final UserServiceImp userService;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserServiceImp userService) {
         this.userService = userService;
     }
 
 
     @GetMapping()
-    public String showUsersTable(Model model){
+    public String showUsersTable(@AuthenticationPrincipal UserDetails userDetails, Model model){
         model.addAttribute("users", userService.getUsersList());
+        User user = userService.findByEmail(userDetails.getUsername());
+        model.addAttribute("info_user", user);
         return "users";
     }
 
@@ -58,6 +62,7 @@ public class AdminController {
     public String editUser(@PathVariable(name = "id") Long id, Model model) {
         User user = userService.getUser(id);
 
+        model.addAttribute("users", userService.getUsersList());
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleRepository.findAll());
 
