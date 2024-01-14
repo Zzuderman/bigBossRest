@@ -43,7 +43,8 @@ public class AdminController {
 
 
     @GetMapping("/new")
-    public String createNewUser(@ModelAttribute("user") User user, @RequestParam(name = "role", defaultValue = "0") Long[] id) {
+    public String createNewUser(Model model,@ModelAttribute("user") User user, @RequestParam(name = "role", defaultValue = "0") Long[] id) {
+        model.addAttribute("allRoles", roleRepository.findAll());
         return "new_user";
     }
 

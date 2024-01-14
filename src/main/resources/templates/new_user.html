@@ -53,7 +53,7 @@
                             </div>
                             <div class="row justify-content-center align-items-center h-100 bg-light">
                                 <form class="form-horizontal col-md-3 " th:method = "POST" th:action = "@{/admin/}" th:object = "${user}">
-                                    <div class="form-group">
+                                    <div class="form-group text-center font-weight-bold">
                                         <label for="name" class="control-label">Name: </label>
                                         <input type="text" class="form-control bg-warning" th:field="*{name}" id="name"/>
                                         <br/>
@@ -64,11 +64,15 @@
                                         <input type="email" class="form-control bg-warning" th:field="*{email}" id="email"/>
                                         <br/>
                                         <label for="name" class="control-label">Password: </label>
-                                        <input type="text" class="form-control" th:field="*{password}" id="password"/>
+                                        <input type="password" class="form-control" th:field="*{password}" id="password"/>
                                         <br/>
                                         <label for="name" class="control-label">Age: </label>
                                         <input type="text" class="form-control" th:field="*{age}" id="age"/>
                                         <br/>
+                                        <label>Role:</label>
+                                        <select class="custom-select " size="2" multiple type="checkbox" name="roles">
+                                            <option th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.id}"   th:field="*{roles}" ></option>
+                                        </select>
                                     </div>
 
                                     <div class="d-flex justify-content-center">

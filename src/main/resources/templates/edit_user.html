@@ -128,25 +128,12 @@
                             <br/>
 
                             <label>Role:</label>
-                            <select class="custom-select " size="2" multiple>
-                                <option th:value="${allRoles.get(0)}" >USER</option>
-                                <option th:value="${allRoles.get(1)}" >ADMIN</option>
+                            <select class="custom-select " size="2" multiple type="checkbox" name="roles">
+                                <option th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.id}"   th:field="*{roles}" ></option>
                             </select>
 
                             <br/>
                             <br/>
-                            <p>
-                                <label>Roles:
-                                    <input type="checkbox" name="roles"
-                                           th:each="role : ${allRoles}"
-                                           th:text="${role.name}"
-                                           th:value="${role.id}"
-                                           th:field="*{roles}"
-                                    />
-                                </label>
-                            </p>
-
-
 
                         </div>
                         </div>
