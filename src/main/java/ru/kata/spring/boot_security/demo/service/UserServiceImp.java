@@ -34,6 +34,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }

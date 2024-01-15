@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
 import java.security.Principal;
 
 @Controller
 public class UserController {
-    private UserServiceImp userService;
+    private final UserService userService;
 
     @Autowired
-    public void setUserServiceImp(UserServiceImp userServiceImp) {
-        this.userService = userServiceImp;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/user")
