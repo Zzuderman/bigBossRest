@@ -12,9 +12,31 @@
 <nav class="navbar bg-dark">
     <div class="container-fluid">
         <div class="row">
-            <div class="navbar-header text-white font-weight-bolder" th:text="${one_user.getEmail()}"></div>
+            <div class="navbar-header text-white font-weight-bolder">
+
+                <html xmlns:th="https://www.thymeleaf.org"
+                      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+                <body>
+                <div sec:authorize="isAuthenticated()">
+                    <span sec:authentication="name"></span></div>
+                </body>
+                </html>
+
+
+            </div>
             <div class="navbar-header text-white text-left" >&nbsp;with roles:&nbsp;</div>
-            <div class="navbar-header text-white font-weight-bolder" th:text="${one_user.getRoles()}"></div>
+            <div class="navbar-header text-white font-weight-bolder">
+
+                <html xmlns:th="https://www.thymeleaf.org"
+                      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+                <body>
+                <div sec:authorize="isAuthenticated()">
+                    <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+                </div>
+                </body>
+                </html>
+
+            </div>
         </div>
 
         <div>
