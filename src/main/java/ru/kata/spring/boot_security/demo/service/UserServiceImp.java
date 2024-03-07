@@ -34,6 +34,10 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities (Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    }
+
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -88,7 +92,5 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return new  org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities (Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-    }
+
 }
